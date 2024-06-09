@@ -1,0 +1,81 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+      margin: 0;
+      padding: 20px;
+      background-color: #f4f4f4;
+    }
+    .container {
+      max-width: 600px;
+      margin: 0 auto;
+      padding: 20px;
+      background-color: white;
+      border-radius: 8px;
+      box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+    }
+    input, select, button {
+      width: 100%;
+      padding: 10px;
+      margin: 10px 0;
+      border: 1px solid #ccc;
+      border-radius: 4px;
+      box-sizing: border-box;
+    }
+    button {
+      background-color: #28a745;
+      color: white;
+      cursor: pointer;
+    }
+    button:hover {
+      background-color: #218838;
+    }
+  </style>
+</head>
+<body>
+  <div class="container">
+    <h1>Add New Workout</h1>
+    <form id="workoutForm">
+      <input type="text" id="workout" name="workout" placeholder="Workout" required>
+      <input type="date" id="date" name="date" required>
+      <input type="text" id="sport" name="sport" placeholder="Sport" required>
+      <select id="muscles" name="muscles" multiple required>
+        <option value="Biceps">Biceps</option>
+        <option value="Back">Back</option>
+        <option value="Abs">Abs</option>
+        <option value="Chest">Chest</option>
+        <option value="Legs">Legs</option>
+        <option value="Shoulders">Shoulders</option>
+        <option value="Triceps">Triceps</option>
+      </select>
+      <button type="submit">Submit</button>
+    </form>
+  </div>
+  <script>
+    document.getElementById('workoutForm').addEventListener('submit', function(event) {
+      event.preventDefault();
+      var workout = document.getElementById('workout').value;
+      var date = document.getElementById('date').value;
+      var sport = document.getElementById('sport').value;
+      var muscles = Array.from(document.getElementById('muscles').selectedOptions).map(option => option.value);
+
+      fetch('YOUR_DEPLOYED_WEB_APP_URL', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify({ workout, date, sport, muscles }),
+      })
+      .then(response => response.text())
+      .then(data => {
+        alert('Workout added successfully!');
+        document.getElementById('workoutForm').reset();
+      })
+      .catch(error => console.error('Error:', error));
+    });
+  </script>
+</body>
+</html>
