@@ -62,7 +62,7 @@
       var sport = document.getElementById('sport').value;
       var muscles = Array.from(document.getElementById('muscles').selectedOptions).map(option => option.value);
 
-      fetch('YOUR_DEPLOYED_WEB_APP_URL', {
+      fetch('https://script.google.com/macros/s/AKfycbzjFCJ6I60Zw_c8VydWZkSD8gKExw39hFHqmKP67idENbmULQEJDOcqo2E7cTd5lM1ONg/exec', {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',
