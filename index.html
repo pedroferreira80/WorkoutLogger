@@ -57,12 +57,15 @@
   <script>
     document.getElementById('workoutForm').addEventListener('submit', function(event) {
       event.preventDefault();
+      console.log("Form submitted");
       var workout = document.getElementById('workout').value;
       var date = document.getElementById('date').value;
       var sport = document.getElementById('sport').value;
       var muscles = Array.from(document.getElementById('muscles').selectedOptions).map(option => option.value);
 
-      fetch('https://script.google.com/macros/s/AKfycbzq7NUWvuNHE45J26lGDef-XMVydHUc6KDsraNA6EmnrDunrv5oyx4d1-kMWQVtVfZ7SA/exec', {
+      console.log("Data collected", { workout, date, sport, muscles });
+
+      fetch('https://script.google.com/macros/s/AKfycbwPKFwlYNZ29fCZK39tljN8dOPpBGWVbiXPelP7lBfT4n0jBubQqgSJ6_BTLhfFBqovZA/exec', {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',
@@ -71,10 +74,14 @@
       })
       .then(response => response.text())
       .then(data => {
+        console.log("Response received", data);
         alert('Workout added successfully!');
         document.getElementById('workoutForm').reset();
       })
-      .catch(error => console.error('Error:', error));
+      .catch(error => {
+        console.error('Error:', error);
+        alert('Failed to add workout. See console for details.');
+      });
     });
   </script>
 </body>
