@@ -57,31 +57,27 @@
   <script>
     document.getElementById('workoutForm').addEventListener('submit', function(event) {
       event.preventDefault();
-      console.log("Form submitted");
       var workout = document.getElementById('workout').value;
       var date = document.getElementById('date').value;
       var sport = document.getElementById('sport').value;
       var muscles = Array.from(document.getElementById('muscles').selectedOptions).map(option => option.value);
 
-      console.log("Data collected", { workout, date, sport, muscles });
+      var url = new URL('https://script.google.com/macros/s/AKfycbzmNopemOf-C4QPplgNFEK4TuI-krYAA39gKzxk4BGXDqN4l-ooo9ly41MOFWCUy3ZcdA/exec');
+      url.searchParams.append('workout', workout);
+      url.searchParams.append('date', date);
+      url.searchParams.append('sport', sport);
+      url.searchParams.append('muscles', muscles.join(','));
 
-      fetch('https://script.google.com/macros/s/AKfycbwPKFwlYNZ29fCZK39tljN8dOPpBGWVbiXPelP7lBfT4n0jBubQqgSJ6_BTLhfFBqovZA/exec', {
-        method: 'POST',
-        headers: {
-          'Content-Type': 'application/json',
-        },
-        body: JSON.stringify({ workout, date, sport, muscles }),
-      })
-      .then(response => response.text())
-      .then(data => {
-        console.log("Response received", data);
-        alert('Workout added successfully!');
-        document.getElementById('workoutForm').reset();
-      })
-      .catch(error => {
-        console.error('Error:', error);
-        alert('Failed to add workout. See console for details.');
-      });
+      fetch(url)
+        .then(response => response.json())
+        .then(data => {
+          alert('Workout added successfully!');
+          document.getElementById('workoutForm').reset();
+        })
+        .catch(error => {
+          console.error('Error:', error);
+          alert('Failed to add workout. See console for details.');
+        });
     });
   </script>
 </body>
